@@ -1,0 +1,23 @@
+- name: init package
+  hosts: vpn_hosts
+  become: yes
+  become_user: root
+  tasks:
+    - name: Install centos_7_init_package
+      yum:
+        name: "{{ centos_7_init_package }}"
+        state: present
+
+    - name: check selinux config status
+      stat:
+        path: /etc/selinux/config
+      register: selinux_config
+
+    - name: change selinux to disabled
+      replace:
+        dest: "{{ item.dst }}"
+        regexp: "{{ item.string_orig }}"
+        replace: "{{ item.string_change }}"
+      with_items:
+        - "{{ selinux_conf_string }}"
+      when: selinux_config.stat.exists == True

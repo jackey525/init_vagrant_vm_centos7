@@ -1,0 +1,20 @@
+centos_7_init_package:
+- epel-release
+- net-tools
+- ntpdate
+- wget
+- tcpdump
+- screen
+- lsof
+- git
+- tree
+- yum-utils
+- curl
+- nfs-utils
+
+bash_completion: bash-completion
+
+selinux_conf_string:
+- dst: "/etc/selinux/config"
+  string_orig: "^SELINUX=enforcing$"
+  string_change: "SELINUX=disabled"
